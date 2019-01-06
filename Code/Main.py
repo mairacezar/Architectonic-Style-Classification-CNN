@@ -7,25 +7,21 @@ import os
 import cv2
 from PIL import Image
 import numpy as np
-import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
 from random import shuffle
 from tqdm import tqdm
-from sklearn.metrics import roc_auc_score
+
 
 # change to work on all computers
-directory_name = "C:\Users\Yuri\Desktop\Machine Learning\Arquitetura Igrejas\Architectonic-Style-Classification-CNN\Training data"
+for directories in os.listdir():
+    print (os.listdir())
+    if directories == "Training data":
+        print (directories)
+    else:
+        print ("banana")
+    
 
 # image size
 size_x = 80
 size_y = 80
 
-
-for folder_name in os.listdir(directory_name):
-    # Numpy vector to store images
-    imgs = np.empty((0, size_x, size_Y, 3))
-    #tratando imagens
-    for image in os.listdir(folder_name):
-        if filename.endwith(".jpg"):
-            
