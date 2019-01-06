@@ -34,7 +34,10 @@ for folder_name in os.listdir(training_data_directory):
         if(image.endswith(".jpg")):
             print("banana")
 
+
+
+# Return all images that he can find inside program filesystem
 for root, dirs, files in os.walk(os.getcwd()):
     for file in files:
-        if(file):
-            print("Macaco")
+        if(file.endswith(".jpg")):
+            print(file)
