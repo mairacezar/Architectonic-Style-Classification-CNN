@@ -7,12 +7,13 @@ import os
 import cv2
 from PIL import Image
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
 from tqdm import tqdm
-from sklearn.metrics import roc_auc_score
+from enum import enum
+#from sklearn.metrics import roc_auc_score
 
 
 program_folder = os.getcwd()
@@ -22,6 +23,15 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 size_x = 80
 size_y = 80
 
+image_classe_counter = 1
+
+class image(Enum):
+    Barroque = 1
+    Gothic = 2
+    Romanic = 3
+
+
+training_data = []
 
 for folder_name in os.listdir(training_data_directory):
     # Numpy vector to store images
@@ -32,12 +42,18 @@ for folder_name in os.listdir(training_data_directory):
     #tratando imagens
     for image in os.listdir(folder_path):
         if(image.endswith(".jpg")):
-            print("banana")
-
+            img = Image.open(os.path.join(folder_path, image)).convert('RGB')
+            
+            
+            
+            imgs = np.append(imgs, np.array(img), axis=0)
+            print(image)
+            
+            
 
 
 # Return all images that he can find inside program filesystem
-for root, dirs, files in os.walk(os.getcwd()):
-    for file in files:
-        if(file.endswith(".jpg")):
-            print(file)
+#for root, dirs, files in os.walk(os.getcwd()):
+#    for file in files:
+#        if(file.endswith(".jpg")):
+#            print(file)
