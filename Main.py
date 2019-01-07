@@ -12,7 +12,6 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
 from tqdm import tqdm
-from enum import enum
 #from sklearn.metrics import roc_auc_score
 
 
@@ -23,19 +22,21 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 size_x = 80
 size_y = 80
 
-image_classe_counter = 1
+image_label_index = 0
+image_label = [0, 0, 0]
 
-class image(Enum):
-    Barroque = 1
-    Gothic = 2
-    Romanic = 3
+def image_label_change(image_label, index):
+    for i in range(len(image_label)):
+        image_label[i] = 0
+    if(index < 3):
+        image_label[index] = 1
 
 
 training_data = []
 
 for folder_name in os.listdir(training_data_directory):
     # Numpy vector to store images
-    imgs = np.empty((0, size_x, size_y, 3))
+    #imgs = np.empty((0, size_x, size_y, 3))
     
     folder_path = os.path.join(training_data_directory, folder_name)
     
@@ -43,11 +44,12 @@ for folder_name in os.listdir(training_data_directory):
     for image in os.listdir(folder_path):
         if(image.endswith(".jpg")):
             img = Image.open(os.path.join(folder_path, image)).convert('RGB')
+            label = image_label
+            training_data.append([np.array(img), np.array(label)])
             
+    image_label_index += 1
+    image_label_change(image_label, image_label_index)
             
-            
-            imgs = np.append(imgs, np.array(img), axis=0)
-            print(image)
             
             
 
