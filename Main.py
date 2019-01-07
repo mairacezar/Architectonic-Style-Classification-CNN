@@ -7,20 +7,23 @@ import os
 import cv2
 from PIL import Image
 import numpy as np
-#import pandas as pd
+import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
 from tqdm import tqdm
-#from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score
 
 
 program_folder = os.getcwd()
 training_data_directory = os.path.join(program_folder, "Training Data")
         
-# image size
-size_x = 80
-size_y = 80
+# image size parameters
+image_size = 227
+LR = 1e-3
+MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '6conv-basic') 
+
+output_classes = 3
 
 image_label_index = 0
 image_label = [1, 0, 0]
@@ -44,6 +47,7 @@ for folder_name in os.listdir(training_data_directory):
     for image in os.listdir(folder_path):
         if(image.endswith(".jpg")):
             img = Image.open(os.path.join(folder_path, image)).convert('RGB')
+            img = img.resize((image_size, image_size), Image.ANTIALIAS)
 
             label = image_label
             training_data.append([np.array(img), np.array(label)])
@@ -51,8 +55,112 @@ for folder_name in os.listdir(training_data_directory):
     image_label_index += 1
     image_label_change(image_label, image_label_index)
             
-#np.save("outfile", training_data)
+shuffle(training_data)
+np.save("outfile", training_data)
+
+
+train = training_data[:-30]
+test = training_data[-30:]
+
+train_X = np.array([i[0] for i in train]).reshape(-1, image_size, image_size, 1) 
+train_Y = [i[1] for i in train]
+
+test_x = np.array([i[0] for i in test]).reshape(-1, image_size, image_size, 1) 
+test_y = [i[1] for i in test]
+
+
+
+############################################################################## LALLALALALALALALALA
+
+
+
+
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Return all images that he can find inside program filesystem
