@@ -44,6 +44,7 @@ for folder_name in os.listdir(training_data_directory):
     for image in os.listdir(folder_path):
         if(image.endswith(".jpg")):
             img = Image.open(os.path.join(folder_path, image)).convert('RGB')
+            
             label = image_label
             training_data.append([np.array(img), np.array(label)])
             
