@@ -19,16 +19,16 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 #_________________________CONSTRUCT DATASET___________________________________
 
 
-# Um dia tem que mudar isso para uma coisa menos confusa. 
+# TODO: mudar isso para uma coisa menos confusa. 
 program_folder = os.getcwd()
 training_data_directory = os.path.join(program_folder, "Training Data")
 
         
-# Defines
+# Defines.
 IMAGE_SIZE = 227
 
 
-# Mcgiver function to create binary label
+# Mcgiver function to create binary label.
 def image_label_change(image_label, index):
     for i in range(len(image_label)):
         image_label[i] = 0
@@ -36,62 +36,78 @@ def image_label_change(image_label, index):
         image_label[index] = 1
 
 
-# Function to create the dataset
+# ENG: Function to create the dataset.
+# PT: Função que cria um dataset.
 def generate_dataset(data_directory):
     
     training_data = []
     
-    # Acho que é necessário mudar a forma como estamos fazendo o label para uma
-    # forma mais simples, expansível e "correta". Algo como
-    # image_label = ["Label", "*label_name*"]
+    # TODO: Talvez seja necessário mudar a forma como estamos fazendo o label
+    # para uma forma mais simples, expansível e "correta". Algo como
+    # image_label = ["Label", "*label_name*"].
     image_label_index = 0
     image_label = [1, 0, 0]
     
-    # Entrando na pasta das pastas das images
+    # ENG: Entering the folder that contains all images folders.
+    # PT: Entrando na pasta que contém todas as pastas das images.
     for folder_name in os.listdir(data_directory):       
         folder_path = os.path.join(data_directory, folder_name)
         
-        # Tratando imagens
+        # ENG: Treating images.
+        # PT: Tratando imagens.
         for image in os.listdir(folder_path):
             if(image.endswith(".jpg")):
-                # Abre a imagem e converte ela para RGB
+                # ENG: Opening images and converting them to RGB.
+                # PT: Abre a imagem e converte ela para RGB.
                 img = Image.open(os.path.join(folder_path, image)).convert('RGB')
                 
-                # Resize a imagem para 227,227. Até onde sabemos essa operção 
-                # não é muito destrutiva
+                # ENG: Resizes images to 277,277.
+                # PT: Resize a imagem para 227,227.
+                # NOTE: Até onde sabemos essa operção não é muito destrutiva.
                 img = img.resize((IMAGE_SIZE, IMAGE_SIZE), Image.ANTIALIAS)
                 
-                # Mais uma parte da gambiarra de setar o label
+                # ENG: Another McGiver part to set label.
+                # PT: Mais uma parte da gambiarra de setar o label.
                 label = image_label
                 
-                # Cria o dataset no formato 
-                # DATA [numpy_array_label, numpy_array_feature]
+                # ENG: Creates a dataset and formats it to:
+                # PT: Cria o dataset no formato de:
+                # DATA [numpy_array_label, numpy_array_feature].
                 training_data.append([np.array(img), np.array(label)])
-                
-        # Gambiarra para fazer o label mudar automativamente quando muda de pasta
+        
+        # ENG: Last McGiver part to set labels automagically when changein folders.
+        # PT: Gambiarra para fazer o label mudar automativamente quando muda de pasta.
         image_label_index += 1
         image_label_change(image_label, image_label_index)
     
-    # Embaralhando os dados            
+    # ENG: Shuffles data.
+    # PT: Embaralha os dados.
     shuffle(training_data)
     
-    # Salvando o dataset como arquivo .npy
+    # OLD: Salvando o dataset como arquivo .npy
     #np.save("outfile", training_data)
     
-    # Retornando o dataset
+    # ENG: Returns dataset.
+    # PT: Retorna o dataset.
     return training_data
 
 
-# Function to load dataset file if exist or create a new one if doesn't
+# ENG: Function to load dataset file if exist or create a new one if doesn't.
+# PT: Função para carregar o arquivo do dataset se ele existe, ou criar um novo
+# se ele não existe.
 def load_dataset_if_exists( directory ):
-    # For each file in file root dir, check if an .npy file exists, if it does
-    # load it, if it does not, create a dataset file and saves it as dataset.npy
+    # ENG: For each file in file root dir, check if an .npy file exists, if it does
+    # load it, if it does not, create a dataset file and saves it as dataset.npy.
+    # PT: Para cada arquivo presente no diretório root, checa se é um .npy, se
+    # for, carrega o arquivo, se não, cria um arquivo dataset e salva ele como
+    # dataset.npy.
     for file in os.listdir():
         if ( file.endswith( ".npy" ) ):
             print("Loading .npy from folder...")
             return( np.load( file ) )
     
-    # If the dataset is not present in the folder, generates, and them saves it
+    # ENG: If the dataset is not present in the folder, generates and them saves it.
+    # PT: Se o dataset não está presente no arquivo, gera ele e salva.
     print("Generating dataset from images...")
     dataset = generate_dataset( directory )
     print("Dataset Created, now saving...")
@@ -100,31 +116,31 @@ def load_dataset_if_exists( directory ):
     return(dataset)
 
 
-# Old Get_data func, runs everytime.
+# OLD: Get_data func, runs everytime.
 #data = get_train_data(training_data_directory)
     
     
-# Check if folder already has .npy datase, if it does, loads it, if not, creates
+# ENG: Check if folder already has .npy datase, if it does, loads it, if not, creates
 # and saves it as an .npy file.
-# Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
+# PT: Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
 # cria um dataset e salva ele como um arquivo .npy
 data = load_dataset_if_exists(training_data_directory)        
 
 
-# Divides dataset into Train and test ( 272 and 30 data each)
-# Divide o dataset em Train e Test (272 e 30 dados cada)
+# ENG: Divides dataset into Train and test ( 272 and 30 data each)
+# PT: Divide o dataset em Train e Test (272 e 30 dados cada)
 train = data[:-30]
 test = data[-30:]
 
-# Creates vectors for Features and Labels for Train and Test
-# Cria um vetores para Features e um para Labels para os dados de Test e de Train
+# ENG: Creates vectors for Features and Labels for Train and Test
+# PT: Cria um vetores para Features e um para Labels para os dados de Test e de Train
 train_x = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
 train_y = [i[1] for i in train]
 
 test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
 test_y = [i[1] for i in test]
 
-# Função importantíssima do código que mostra para o seu programador quando o
+# NOTE: Função importantíssima do código que mostra para o seu programador quando o
 # código terminou.
 print("end program")
 
