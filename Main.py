@@ -7,12 +7,17 @@ import os
 import cv2
 from PIL import Image
 import numpy as np
-#import pandas as pd
+import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
 from tqdm import tqdm
-#from sklearn.metrics import roc_auc_score
+from IPython import get_ipython
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+
+#_________________________CONSTRUCT DATASET___________________________________
+
 
 # Um dia tem que mudar isso para uma coisa menos confusa. 
 program_folder = os.getcwd()
@@ -28,7 +33,7 @@ MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '6conv-basic')
 #image_label_index = 0
 #image_label = [1, 0, 0]
 
-# Função do tipo Gambiarra para ajudar a setar o label pela pasta
+# Mcgiver function to create binary label
 def image_label_change(image_label, index):
     for i in range(len(image_label)):
         image_label[i] = 0
@@ -87,23 +92,36 @@ train = data[:-30]
 test = data[-30:]
 
 # Teoricamente cria o vetor de Features e Labels para o Train e o Test
-train_X = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 1) 
+train_X = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
 train_Y = [i[1] for i in train]
 
-test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 1) 
+test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
 test_y = [i[1] for i in test]
 
 # Função importantíssima do código que mostra para o seu programador quando o
 # código terminou.
 print("end program")
 
-############################################################################## LALLALALALALALALALA <----- Não pode, passou
-#                                                                                                         dos 80 caracteres
+#________________________TESTING DATASET______________________________________
+
+# Shapes of training set
+print("Training set (images) shape: {shape}".format(shape=train_X.shape))
+
+
+# Display the first image in training data
+#plt.subplot(121)
+#plt.imshow(data[0][0], cmap='gray')
+
+plt.subplot(121)
+plt.imshow(train_X[0], cmap='gray')
+plt.show()
+
+print(train_Y[0])
+
+np.max(data[0][0])
 
 
 
-
-            
 
 
 
