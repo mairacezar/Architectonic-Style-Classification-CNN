@@ -144,6 +144,9 @@ plt.show()
 print(train_y[0])
 
 
+#____________________CONSTRUCT NEURAL
+
+
 
 
 
