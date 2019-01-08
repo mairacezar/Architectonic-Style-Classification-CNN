@@ -37,7 +37,7 @@ def image_label_change(image_label, index):
 
 
 # Function to create the dataset
-def get_train_data(data_directory):
+def generate_dataset(data_directory):
     
     training_data = []
     
@@ -83,34 +83,32 @@ def get_train_data(data_directory):
 
 
 # Function to load dataset file if exist or create a new one if doesn't
-def load_npy_if_exists( directory ):
-    # Flag to check if file was found
-    file_exists = False
-    
+def load_dataset_if_exists( directory ):
     # For each file in file root dir, check if an .npy file exists, if it does
     # load it, if it does not, create a dataset file and saves it as dataset.npy
     for file in os.listdir():
         if ( file.endswith( ".npy" ) ):
             print("Loading .npy from folder...")
             return( np.load( file ) )
-            file_exists = True
-    if ( file_exists == False ):
-        print("Creating dataset from images...")
-        dataset = get_train_data( directory )
-        print("Dataset Created, now saving...")
-        np.save("dataset", data)
-        print("Saved dataset as: dataset.npy with succes!")
-        return(dataset)
+    
+    # If the dataset is not present in the folder, generates, and them saves it
+    print("Generating dataset from images...")
+    dataset = generate_dataset( directory )
+    print("Dataset Created, now saving...")
+    np.save("dataset", dataset)
+    print("Saved dataset as: dataset.npy with succes!")
+    return(dataset)
 
 
 # Old Get_data func, runs everytime.
 #data = get_train_data(training_data_directory)
-
+    
+    
 # Check if folder already has .npy datase, if it does, loads it, if not, creates
 # and saves it as an .npy file.
 # Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
 # cria um dataset e salva ele como um arquivo .npy
-data = load_npy_if_exists(training_data_directory)        
+data = load_dataset_if_exists(training_data_directory)        
 
 
 # Divides dataset into Train and test ( 272 and 30 data each)
