@@ -20,7 +20,8 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 
         
 # Defines.
-IMAGE_SIZE = 273
+IMAGE_SIZE = 275
+NUM_CLASSES = 3
 
 # ENG: Returns a label based on image name
 # PT: Retorna um label baseado no nome da imagem
@@ -142,10 +143,10 @@ print(train_y[0], train_y.shape)
 
 training_iters = 50
 learning_rate = 0.001 
-batch_size = 272
+batch_size = 33
 
 n_input = IMAGE_SIZE
-n_classes = 3
+n_classes = NUM_CLASSES
 
 tf.reset_default_graph()
 
@@ -163,18 +164,18 @@ def maxpool2d(x, k=2):
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],padding='SAME')
 
 weights = {
-    'wc1': tf.get_variable('W0', shape=(3,3,3,16), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc2': tf.get_variable('W1', shape=(3,3,16,32), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc3': tf.get_variable('W2', shape=(3,3,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wd1': tf.get_variable('W3', shape=(4*4*64,64), initializer=tf.contrib.layers.xavier_initializer()), 
-    'out': tf.get_variable('W6', shape=(64,n_classes), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc1': tf.get_variable('W0', shape=(5,5,3,32), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc2': tf.get_variable('W1', shape=(5,5,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc3': tf.get_variable('W2', shape=(5,5,64,128), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wd1': tf.get_variable('W3', shape=(35*35*128,128), initializer=tf.contrib.layers.xavier_initializer()), 
+    'out': tf.get_variable('W6', shape=(128,n_classes), initializer=tf.contrib.layers.xavier_initializer()), 
 }
 biases = {
-    'bc1': tf.get_variable('B0', shape=(16), initializer=tf.contrib.layers.xavier_initializer()),
-    'bc2': tf.get_variable('B1', shape=(32), initializer=tf.contrib.layers.xavier_initializer()),
-    'bc3': tf.get_variable('B2', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
-    'bd1': tf.get_variable('B3', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
-    'out': tf.get_variable('B4', shape=(3), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc1': tf.get_variable('B0', shape=(32), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc2': tf.get_variable('B1', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc3': tf.get_variable('B2', shape=(128), initializer=tf.contrib.layers.xavier_initializer()),
+    'bd1': tf.get_variable('B3', shape=(128), initializer=tf.contrib.layers.xavier_initializer()),
+    'out': tf.get_variable('B4', shape=(NUM_CLASSES), initializer=tf.contrib.layers.xavier_initializer()),
 }
 
 def conv_net(x, weights, biases):  
@@ -183,18 +184,17 @@ def conv_net(x, weights, biases):
     conv1 = conv2d(x, weights['wc1'], biases['bc1'])
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 14*14 matrix.
     conv1 = maxpool2d(conv1, k=2)
-
+    
     # Convolution Layer
     # here we call the conv2d function we had defined above and pass the input image x, weights wc2 and bias bc2.
     conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 7*7 matrix.
     conv2 = maxpool2d(conv2, k=2)
-
+    
     conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 4*4.
     conv3 = maxpool2d(conv3, k=2)
-
-
+    
     # Fully connected layer
     # Reshape conv2 output to fit fully connected layer input
     fc1 = tf.reshape(conv3, [-1, weights['wd1'].get_shape().as_list()[0]])
@@ -207,7 +207,7 @@ def conv_net(x, weights, biases):
 
 pred = conv_net(x, weights, biases)
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=pred, labels=y))
 
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
