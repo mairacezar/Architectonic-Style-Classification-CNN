@@ -26,12 +26,7 @@ training_data_directory = os.path.join(program_folder, "Training Data")
         
 # Defines
 IMAGE_SIZE = 227
-LR = 1e-3
-MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR, '6conv-basic') 
 
-
-#image_label_index = 0
-#image_label = [1, 0, 0]
 
 # Mcgiver function to create binary label
 def image_label_change(image_label, index):
@@ -40,6 +35,8 @@ def image_label_change(image_label, index):
     if(index < 3):
         image_label[index] = 1
 
+
+# Function to create the dataset
 def get_train_data(data_directory):
     
     training_data = []
@@ -84,16 +81,47 @@ def get_train_data(data_directory):
     # Retornando o dataset
     return training_data
 
-# Autoexplicativo
-data = get_train_data(training_data_directory)
 
-# Divide o dataset em train e test (272 e 30 dados cada)
+# Function to load dataset file if exist or create a new one if doesn't
+def load_npy_if_exists( directory ):
+    # Flag to check if file was found
+    file_exists = False
+    
+    # For each file in file root dir, check if an .npy file exists, if it does
+    # load it, if it does not, create a dataset file and saves it as dataset.npy
+    for file in os.listdir():
+        if ( file.endswith( ".npy" ) ):
+            print("Loading .npy from folder...")
+            return( np.load( file ) )
+            file_exists = True
+    if ( file_exists == False ):
+        print("Creating dataset from images...")
+        dataset = get_train_data( directory )
+        print("Dataset Created, now saving...")
+        np.save("dataset", data)
+        print("Saved dataset as: dataset.npy with succes!")
+        return(dataset)
+
+
+# Old Get_data func, runs everytime.
+#data = get_train_data(training_data_directory)
+
+# Check if folder already has .npy datase, if it does, loads it, if not, creates
+# and saves it as an .npy file.
+# Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
+# cria um dataset e salva ele como um arquivo .npy
+data = load_npy_if_exists(training_data_directory)        
+
+
+# Divides dataset into Train and test ( 272 and 30 data each)
+# Divide o dataset em Train e Test (272 e 30 dados cada)
 train = data[:-30]
 test = data[-30:]
 
-# Teoricamente cria o vetor de Features e Labels para o Train e o Test
-train_X = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-train_Y = [i[1] for i in train]
+# Creates vectors for Features and Labels for Train and Test
+# Cria um vetores para Features e um para Labels para os dados de Test e de Train
+train_x = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
+train_y = [i[1] for i in train]
 
 test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
 test_y = [i[1] for i in test]
@@ -102,44 +130,18 @@ test_y = [i[1] for i in test]
 # código terminou.
 print("end program")
 
+
 #________________________TESTING DATASET______________________________________
 
 # Shapes of training set
-print("Training set (images) shape: {shape}".format(shape=train_X.shape))
-
+print("Training set (images) shape: {shape}".format(shape=train_x.shape))
 
 # Display the first image in training data
-#plt.subplot(121)
-#plt.imshow(data[0][0], cmap='gray')
-
-plt.subplot(121)
-plt.imshow(train_X[0], cmap='gray')
+plt.imshow(train_x[0], cmap='gray')
 plt.show()
 
-print(train_Y[0])
-
-np.max(data[0][0])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Print image label for sanity checks
+print(train_y[0])
 
 
 
