@@ -22,23 +22,22 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 # Defines.
 IMAGE_SIZE = 273
 
-
-def label_image(image):
+# ENG: Returns a label based on image name
+# PT: Retorna um label baseado no nome da imagem
+def label_images(image):
     if("ba" in image):
         return np.array([1,0,0])
     elif("go" in image):
         return np.array([0,1,0])
     elif("ro" in image):
         return np.array([0,0,1])
-    
-        
 
 # ENG: Function to create the dataset.
 # PT: Função que cria um dataset.
 def generate_dataset(data_directory):
     
     training_data = []
-
+  
     # ENG: Entering the folder that contains all images folders.
     # PT: Entrando na pasta que contém todas as pastas das images.
     for folder_name in os.listdir(data_directory):       
@@ -57,10 +56,10 @@ def generate_dataset(data_directory):
                 # NOTE: Até onde sabemos essa operção não é muito destrutiva.
                 img = img.resize((IMAGE_SIZE, IMAGE_SIZE), Image.ANTIALIAS)
                 
-                # ENG: Another McGiver part to set label.
-                # PT: Mais uma parte da gambiarra de setar o label.
-                label = label_image(image)
-
+                # ENG: Get a label for the image
+                # PT: Adquire um label para a imagem
+                label = label_images(image)
+                
                 # ENG: Creates a dataset and formats it to:
                 # PT: Cria o dataset no formato de:
                 # DATA [numpy_array_label, numpy_array_feature].
