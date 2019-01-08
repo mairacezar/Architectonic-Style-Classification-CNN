@@ -28,24 +28,18 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 IMAGE_SIZE = 227
 
 
-# Mcgiver function to create binary label
-def image_label_change(image_label, index):
-    for i in range(len(image_label)):
-        image_label[i] = 0
-    if(index < 3):
-        image_label[index] = 1
-
+def label_images(image):
+    if("ba" in image):
+        return np.array([1,0,0])
+    elif("go" in image):
+        return np.array([0,1,0])
+    elif("ro" in image):
+        return np.array([0,0,1])
 
 # Function to create the dataset
 def get_train_data(data_directory):
     
     training_data = []
-    
-    # Acho que é necessário mudar a forma como estamos fazendo o label para uma
-    # forma mais simples, expansível e "correta". Algo como
-    # image_label = ["Label", "*label_name*"]
-    image_label_index = 0
-    image_label = [1, 0, 0]
     
     # Entrando na pasta das pastas das images
     for folder_name in os.listdir(data_directory):       
@@ -62,16 +56,12 @@ def get_train_data(data_directory):
                 img = img.resize((IMAGE_SIZE, IMAGE_SIZE), Image.ANTIALIAS)
                 
                 # Mais uma parte da gambiarra de setar o label
-                label = image_label
+                label = label_images(image)
                 
                 # Cria o dataset no formato 
                 # DATA [numpy_array_label, numpy_array_feature]
                 training_data.append([np.array(img), np.array(label)])
                 
-        # Gambiarra para fazer o label mudar automativamente quando muda de pasta
-        image_label_index += 1
-        image_label_change(image_label, image_label_index)
-    
     # Embaralhando os dados            
     shuffle(training_data)
     
@@ -121,10 +111,10 @@ test = data[-30:]
 # Creates vectors for Features and Labels for Train and Test
 # Cria um vetores para Features e um para Labels para os dados de Test e de Train
 train_x = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-train_y = [i[1] for i in train]
+train_y = np.array([i[1] for i in train])
 
 test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-test_y = [i[1] for i in test]
+test_y = np.array([i[1] for i in test])
 
 # Função importantíssima do código que mostra para o seu programador quando o
 # código terminou.
@@ -141,7 +131,7 @@ plt.imshow(train_x[0], cmap='gray')
 plt.show()
 
 # Print image label for sanity checks
-print(train_y[0])
+print(train_y[0], train_y.shape)
 
 
 #____________________CONSTRUCT NEURAL
