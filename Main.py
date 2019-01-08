@@ -60,7 +60,7 @@ def get_train_data(data_directory):
                 
                 # Cria o dataset no formato 
                 # DATA [numpy_array_label, numpy_array_feature]
-                training_data.append([np.array(img), np.array(label)])
+                training_data.append([np.array(img), label])
                 
     # Embaralhando os dados            
     shuffle(training_data)
