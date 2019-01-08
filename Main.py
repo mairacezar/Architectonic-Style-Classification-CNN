@@ -22,27 +22,22 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 # Defines.
 IMAGE_SIZE = 227
 
-
-# Mcgiver function to create binary label.
-def image_label_change(image_label, index):
-    for i in range(len(image_label)):
-        image_label[i] = 0
-    if(index < 3):
-        image_label[index] = 1
-
+# ENG: Returns a label based on image name
+# PT: Retorna um label baseado no nome da imagem
+def label_images(image):
+    if("ba" in image):
+        return np.array([1,0,0])
+    elif("go" in image):
+        return np.array([0,1,0])
+    elif("ro" in image):
+        return np.array([0,0,1])
 
 # ENG: Function to create the dataset.
 # PT: Função que cria um dataset.
 def generate_dataset(data_directory):
     
     training_data = []
-    
-    # TODO: Talvez seja necessário mudar a forma como estamos fazendo o label
-    # para uma forma mais simples, expansível e "correta". Algo como
-    # image_label = ["Label", "*label_name*"].
-    image_label_index = 0
-    image_label = [1, 0, 0]
-    
+  
     # ENG: Entering the folder that contains all images folders.
     # PT: Entrando na pasta que contém todas as pastas das images.
     for folder_name in os.listdir(data_directory):       
@@ -61,19 +56,14 @@ def generate_dataset(data_directory):
                 # NOTE: Até onde sabemos essa operção não é muito destrutiva.
                 img = img.resize((IMAGE_SIZE, IMAGE_SIZE), Image.ANTIALIAS)
                 
-                # ENG: Another McGiver part to set label.
-                # PT: Mais uma parte da gambiarra de setar o label.
-                label = image_label
+                # ENG: Get a label for the image
+                # PT: Adquire um label para a imagem
+                label = label_images(image)
                 
                 # ENG: Creates a dataset and formats it to:
                 # PT: Cria o dataset no formato de:
                 # DATA [numpy_array_label, numpy_array_feature].
-                training_data.append([np.array(img), np.array(label)])
-        
-        # ENG: Last McGiver part to set labels automagically when changein folders.
-        # PT: Gambiarra para fazer o label mudar automativamente quando muda de pasta.
-        image_label_index += 1
-        image_label_change(image_label, image_label_index)
+                training_data.append([np.array(img), label])
     
     # ENG: Shuffles data.
     # PT: Embaralha os dados.
@@ -130,10 +120,10 @@ test = data[-30:]
 # ENG: Creates vectors for Features and Labels for Train and Test
 # PT: Cria um vetores para Features e um para Labels para os dados de Test e de Train
 train_x = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-train_y = [i[1] for i in train]
+train_y = np.array([i[1] for i in train])
 
 test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-test_y = [i[1] for i in test]
+test_y = np.array([i[1] for i in test])
 
 # NOTE: Função importantíssima do código que mostra para o seu programador quando o
 # código terminou.
@@ -150,7 +140,7 @@ plt.imshow(train_x[0], cmap='gray')
 plt.show()
 
 # Print image label for sanity checks
-print(train_y[0])
+print(train_y[0], train_y.shape)
 
 
 
