@@ -20,7 +20,7 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 
         
 # Defines.
-IMAGE_SIZE = 275
+IMAGE_SIZE = 276
 NUM_CLASSES = 3
 
 # ENG: Returns a label based on image name
@@ -141,7 +141,7 @@ print(train_y[0], train_y.shape)
 
 
 
-training_iters = 50
+training_iters = 75
 learning_rate = 0.001 
 batch_size = 33
 
@@ -164,9 +164,9 @@ def maxpool2d(x, k=2):
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],padding='SAME')
 
 weights = {
-    'wc1': tf.get_variable('W0', shape=(5,5,3,32), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc2': tf.get_variable('W1', shape=(5,5,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc3': tf.get_variable('W2', shape=(5,5,64,128), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc1': tf.get_variable('W0', shape=(3,3,3,32), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc2': tf.get_variable('W1', shape=(3,3,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc3': tf.get_variable('W2', shape=(3,3,64,128), initializer=tf.contrib.layers.xavier_initializer()), 
     'wd1': tf.get_variable('W3', shape=(35*35*128,128), initializer=tf.contrib.layers.xavier_initializer()), 
     'out': tf.get_variable('W6', shape=(128,n_classes), initializer=tf.contrib.layers.xavier_initializer()), 
 }
@@ -194,6 +194,7 @@ def conv_net(x, weights, biases):
     conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 4*4.
     conv3 = maxpool2d(conv3, k=2)
+    print(conv3.shape)
     
     # Fully connected layer
     # Reshape conv2 output to fit fully connected layer input
