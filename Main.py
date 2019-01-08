@@ -23,26 +23,22 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 IMAGE_SIZE = 273
 
 
-# Mcgiver function to create binary label.
-def image_label_change(image_label, index):
-    for i in range(len(image_label)):
-        image_label[i] = 0
-    if(index < 3):
-        image_label[index] = 1
-
+def label_image(image):
+    if("ba" in image):
+        return np.array([1,0,0])
+    elif("go" in image):
+        return np.array([0,1,0])
+    elif("ro" in image):
+        return np.array([0,0,1])
+    
+        
 
 # ENG: Function to create the dataset.
 # PT: Função que cria um dataset.
 def generate_dataset(data_directory):
     
     training_data = []
-    
-    # TODO: Talvez seja necessário mudar a forma como estamos fazendo o label
-    # para uma forma mais simples, expansível e "correta". Algo como
-    # image_label = ["Label", "*label_name*"].
-    image_label_index = 0
-    image_label = [1, 0, 0]
-    
+
     # ENG: Entering the folder that contains all images folders.
     # PT: Entrando na pasta que contém todas as pastas das images.
     for folder_name in os.listdir(data_directory):       
@@ -63,17 +59,12 @@ def generate_dataset(data_directory):
                 
                 # ENG: Another McGiver part to set label.
                 # PT: Mais uma parte da gambiarra de setar o label.
-                label = image_label
-                
+                label = label_image(image)
+
                 # ENG: Creates a dataset and formats it to:
                 # PT: Cria o dataset no formato de:
                 # DATA [numpy_array_label, numpy_array_feature].
-                training_data.append([np.array(img), np.array(label)])
-        
-        # ENG: Last McGiver part to set labels automagically when changein folders.
-        # PT: Gambiarra para fazer o label mudar automativamente quando muda de pasta.
-        image_label_index += 1
-        image_label_change(image_label, image_label_index)
+                training_data.append([np.array(img), label])
     
     # ENG: Shuffles data.
     # PT: Embaralha os dados.
@@ -110,11 +101,7 @@ def load_dataset_if_exists( directory ):
     print("Saved dataset as: dataset.npy with succes!")
     return(dataset)
 
-
-# OLD: Get_data func, runs everytime.
-#data = get_train_data(training_data_directory)
-    
-    
+ 
 # ENG: Check if folder already has .npy datase, if it does, loads it, if not, creates
 # and saves it as an .npy file.
 # PT: Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
@@ -130,10 +117,10 @@ test = data[-30:]
 # ENG: Creates vectors for Features and Labels for Train and Test
 # PT: Cria um vetores para Features e um para Labels para os dados de Test e de Train
 train_x = np.array([i[0] for i in train]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-train_y = [i[1] for i in train]
+train_y = np.array([i[1] for i in train])
 
 test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
-test_y = [i[1] for i in test]
+test_y = np.array([i[1] for i in test])
 
 # NOTE: Função importantíssima do código que mostra para o seu programador quando o
 # código terminou.
@@ -150,7 +137,7 @@ plt.imshow(train_x[0], cmap='gray')
 plt.show()
 
 # Print image label for sanity checks
-print(train_y[0])
+print(train_y[0], train_y.shape)
 
 
 
@@ -177,17 +164,17 @@ def maxpool2d(x, k=2):
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],padding='SAME')
 
 weights = {
-    'wc1': tf.get_variable('W0', shape=(3,3,3,32), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc2': tf.get_variable('W1', shape=(3,3,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wc3': tf.get_variable('W2', shape=(3,3,64,128), initializer=tf.contrib.layers.xavier_initializer()), 
-    'wd1': tf.get_variable('W3', shape=(4*4*128,128), initializer=tf.contrib.layers.xavier_initializer()), 
-    'out': tf.get_variable('W6', shape=(128,n_classes), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc1': tf.get_variable('W0', shape=(3,3,3,16), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc2': tf.get_variable('W1', shape=(3,3,16,32), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wc3': tf.get_variable('W2', shape=(3,3,32,64), initializer=tf.contrib.layers.xavier_initializer()), 
+    'wd1': tf.get_variable('W3', shape=(4*4*64,64), initializer=tf.contrib.layers.xavier_initializer()), 
+    'out': tf.get_variable('W6', shape=(64,n_classes), initializer=tf.contrib.layers.xavier_initializer()), 
 }
 biases = {
-    'bc1': tf.get_variable('B0', shape=(32), initializer=tf.contrib.layers.xavier_initializer()),
-    'bc2': tf.get_variable('B1', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
-    'bc3': tf.get_variable('B2', shape=(128), initializer=tf.contrib.layers.xavier_initializer()),
-    'bd1': tf.get_variable('B3', shape=(128), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc1': tf.get_variable('B0', shape=(16), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc2': tf.get_variable('B1', shape=(32), initializer=tf.contrib.layers.xavier_initializer()),
+    'bc3': tf.get_variable('B2', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
+    'bd1': tf.get_variable('B3', shape=(64), initializer=tf.contrib.layers.xavier_initializer()),
     'out': tf.get_variable('B4', shape=(3), initializer=tf.contrib.layers.xavier_initializer()),
 }
 
