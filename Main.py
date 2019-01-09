@@ -47,7 +47,7 @@ def generate_dataset(data_directory):
         # ENG: Treating images.
         # PT: Tratando imagens.
         for image in os.listdir(folder_path):
-            if(image.endswith(".jpg")):
+            if(image.endswith(".jpg") or image.endswith(".JPG") or image.endswith(".jpeg")):
                 # ENG: Opening images and converting them to RGB.
                 # PT: Abre a imagem e converte ela para RGB.
                 img = Image.open(os.path.join(folder_path, image)).convert('RGB')
@@ -89,11 +89,13 @@ def load_dataset_if_exists( directory ):
     # dataset.npy.
     for file in os.listdir():
         if ( file.endswith( ".npy" ) ):
+            print("Dataset present on folder")
             print("Loading .npy from folder...")
             return( np.load( file ) )
     
     # ENG: If the dataset is not present in the folder, generates and them saves it.
     # PT: Se o dataset não está presente no arquivo, gera ele e salva.
+    print("No dataset present on folder")
     print("Generating dataset from images...")
     dataset = generate_dataset( directory )
     print("Dataset Created, now saving...")
@@ -195,6 +197,8 @@ def conv_net(x, weights, biases):
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 4*4.
     conv3 = maxpool2d(conv3, k=2)
     print(conv3.shape)
+    conv3shape = conv3.shape
+    
     
     # Fully connected layer
     # Reshape conv2 output to fit fully connected layer input
