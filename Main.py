@@ -32,6 +32,13 @@ def label_images(image):
         return np.array([0,1,0])
     elif("ro" in image):
         return np.array([0,0,1])
+    
+# NOTE: Por enqaunto essa função não faz muita coisa, o objetivo é expandí-la
+# mais para frente.
+def check_image_names(image):
+    if( ( image.endswith(".jpg") or image.endswith(".JPG") or image.endswith(".jpeg") ) is not True ):
+        return False, print("You have files: {image} in your folder that are not jpg or jpeg...", image)
+    return True
 
 # ENG: Function to create the dataset.
 # PT: Função que cria um dataset.
@@ -47,6 +54,9 @@ def generate_dataset(data_directory):
         # ENG: Treating images.
         # PT: Tratando imagens.
         for image in os.listdir(folder_path):
+            
+            check_image_names(image)
+            
             if(image.endswith(".jpg") or image.endswith(".JPG") or image.endswith(".jpeg")):
                 # ENG: Opening images and converting them to RGB.
                 # PT: Abre a imagem e converte ela para RGB.
@@ -196,8 +206,6 @@ def conv_net(x, weights, biases):
     conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
     # Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 4*4.
     conv3 = maxpool2d(conv3, k=2)
-    print(conv3.shape)
-    conv3shape = conv3.shape
     
     
     # Fully connected layer
@@ -257,7 +265,7 @@ with tf.Session() as sess:
 
 
 
-
+    
 
 
 
