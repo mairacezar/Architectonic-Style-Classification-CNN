@@ -1,17 +1,15 @@
 import os
-import cv2
 from PIL import Image
 import numpy as np
-import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
-from tqdm import tqdm
 from IPython import get_ipython
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-#_________________________CONSTRUCT DATASET___________________________________
+
+#_________________________CONSTRUCT DATASET___________________________________#
 
 
 # TODO: mudar isso para uma coisa menos confusa. 
@@ -20,7 +18,8 @@ training_data_directory = os.path.join(program_folder, "Training Data")
 
         
 # Defines.
-IMAGE_SIZE = 227
+IMAGE_SIZE = 224
+NUM_CLASSES = 3
 
 # ENG: Returns a label based on image name
 # PT: Retorna um label baseado no nome da imagem
@@ -115,7 +114,7 @@ data = load_dataset_if_exists(training_data_directory)
 # ENG: Divides dataset into Train and test ( 272 and 30 data each)
 # PT: Divide o dataset em Train e Test (272 e 30 dados cada)
 train = data[:-30]
-test = data[-30:]
+test = data[-29:]
 
 # ENG: Creates vectors for Features and Labels for Train and Test
 # PT: Cria um vetores para Features e um para Labels para os dados de Test e de Train
@@ -130,22 +129,188 @@ test_y = np.array([i[1] for i in test])
 print("end program")
 
 
-#________________________TESTING DATASET______________________________________
+#________________________TESTING DATASET______________________________________#
 
 # Shapes of training set
 print("Training set (images) shape: {shape}".format(shape=train_x.shape))
 
 # Display the first image in training data
-plt.imshow(train_x[0], cmap='gray')
+plt.imshow(train_x[0])
 plt.show()
 
 # Print image label for sanity checks
 print(train_y[0], train_y.shape)
 
 
-#____________________CONSTRUCT NEURAL
+#____________________CONSTRUCT CONVOLUTIONAL NEURAL NETWORK___________________#
+
+tf.reset_default_graph()
+
+#hyperparameters
+epochs = 50
+learning_rate = 1e-3
+batch_size = 136
+classes = NUM_CLASSES
+input_shape = IMAGE_SIZE
+kernel_size = 3
+
+#placehouder to recive input and output
+image_input = tf.placeholder("float", [None, IMAGE_SIZE, IMAGE_SIZE, 3])
+label_output = tf.placeholder("float", [None, classes])
+
+#convolutional layer function for apply kernels
+def conv2d(x, W, b, strides=1):
+    x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
+    x = tf.nn.bias_add(x, b)
+    return tf.nn.relu(x)
+
+#max pooling function for backpropagation
+def max_pooling(x, k=2):
+    return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1], padding='SAME')
+
+#calculate wd1 size
+def calc_wd1(kernel_size, input_shape):    
+    final_size = input_shape
+    for i in range(0,3):
+        size = int(int(final_size+1)/int(2)) ###########era pra ser -3 que é o tamanho do filtro, mas -1 tá funcionando p todos os casos       
+        final_size = size
+        print(final_size)
+    return final_size
+
+wd1_size = calc_wd1(kernel_size, input_shape)
+
+    
+#defining bias and weights dictionary for set then in tensorflow cnn functions
+weights = {
+        'wc1': tf.get_variable('W0', shape=(3,3,3,32), initializer = tf.contrib.layers.xavier_initializer()),
+        'wc2': tf.get_variable('W1', shape=(3,3,32,64), initializer = tf.contrib.layers.xavier_initializer()),
+        'wc3': tf.get_variable('W2', shape=(3,3,64,128), initializer = tf.contrib.layers.xavier_initializer()),
+        'wd1': tf.get_variable('W3', shape=(wd1_size*wd1_size*128,128), initializer = tf.contrib.layers.xavier_initializer()),
+        'out': tf.get_variable('W6', shape=(128,classes), initializer = tf.contrib.layers.xavier_initializer()),
+        }
+
+biases = {
+        'bc1': tf.get_variable('B0', shape=(32), initializer = tf.contrib.layers.xavier_initializer()),
+        'bc2': tf.get_variable('B1', shape=(64), initializer = tf.contrib.layers.xavier_initializer()),
+        'bc3': tf.get_variable('B2', shape=(128), initializer = tf.contrib.layers.xavier_initializer()),
+        'bd1': tf.get_variable('B3', shape=(128), initializer = tf.contrib.layers.xavier_initializer()),
+        'out': tf.get_variable('B4', shape=(3), initializer = tf.contrib.layers.xavier_initializer()),
+        }
+
+def convolutional_net(x, weights, bias):
+    
+    #neural network layers
+    conv1 = conv2d(x, weights['wc1'], biases['bc1'] )
+    conv1 = max_pooling(conv1, k=2)
+#    print(conv1.shape)
+    
+    conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
+    conv2 = max_pooling(conv2, k=2)
+    
+    conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
+    conv3 = max_pooling(conv3, k=2)
+#    print(conv2.shape)
+#    print(conv3.shape)
+    
+    #fully connected layer with activation function
+    fc1 = tf.reshape(conv3, [-1,weights['wd1'].get_shape().as_list()[0]])
+    fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
+    fc1 = tf.nn.relu(fc1)
+    
+    #output
+    out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
+    
+    return out
+
+#model
+prediction = convolutional_net(image_input, weights, biases)
+
+#loss, activiation and backpropagation functions for model
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=label_output))
+
+optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+
+#test perform
+correct_prediction = tf.equal(tf.argmax(prediction, 1), tf.argmax(label_output, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+#variables initialization
+init = tf.global_variables_initializer()
+
+#initiate train
+with tf.Session() as sess:
+    sess.run(init)
+    train_loss = []
+    test_loss = []
+    train_accuracy = []
+    test_accuracy = []
+    summary = tf.summary.FileWriter('./Output', sess.graph)
+    
+    for i in range(epochs):
+        for batch in range(len(train_x)//batch_size):
+            batch_x = train_x[batch*batch_size:min((batch+1*batch_size, len(train_x)))]
+            batch_y = train_y[batch*batch_size:min((batch+1*batch_size, len(train_y)))]
+            
+            back = sess.run(optimizer, feed_dict = {image_input: batch_x, 
+                                                   label_output: batch_y} )
+    
+            loss, acc = sess.run([cost, accuracy], feed_dict = {image_input: batch_x, 
+                                                   label_output: batch_y} )
+            
+        print("Iter " + str(i) + ", Loss= " + \
+                      "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                      "{:.5f}".format(acc))
+        print("Backpropagation complete.")
+        
+        
+        test_acc, valid_loss = sess.run([accuracy, cost], feed_dict= {image_input: test_x,
+                                                                    label_output: test_y})
+        train_loss.append(loss)
+        test_loss.append(valid_loss)
+        train_accuracy.append(acc)
+        test_accuracy.append(test_acc)
+        print("Testing Accuracy:","{:.5f}".format(test_acc))
+    
+#    plt.imshow(test_x[i])
+#    plt.show()
+#    print(test_y)
+    
+    summary.close()
+    
 
 
+
+plt.plot(range(len(train_loss)), train_loss, 'b', label='Training loss')
+plt.plot(range(len(train_loss)), test_loss, 'r', label='Test loss')
+plt.title('Training and Test loss')
+plt.xlabel('Epochs ',fontsize=16)
+plt.ylabel('Loss',fontsize=16)
+plt.legend()
+plt.figure()
+plt.show()
+
+plt.plot(range(len(train_loss)), train_accuracy, 'b', label='Training Accuracy')
+plt.plot(range(len(train_loss)), test_accuracy, 'r', label='Test Accuracy')
+plt.title('Training and Test Accuracy')
+plt.xlabel('Epochs ',fontsize=16)
+plt.ylabel('Accuracy',fontsize=16)
+plt.legend()
+plt.figure()
+plt.show()
+
+
+
+
+        
+            
+            
+            
+    
+    
+    
+
+
+ 
 
 
 
