@@ -150,7 +150,7 @@ print(train_y[0], train_y.shape)
 tf.reset_default_graph()
 
 #hyperparameters
-epochs = 65
+epochs = 20
 learning_rate = 1e-3
 batch_size = 136
 classes = NUM_CLASSES
@@ -294,7 +294,7 @@ plt.plot(range(len(train_loss)), train_loss, 'b', label='Training loss')
 plt.plot(range(len(train_loss)), test_loss, 'r', label='Test loss')
 
 axes1 = plt.gca()
-axes1.set_ylim([0,0.5])
+axes1.set_ylim([0,0.1])
 
 fig1 = plt.gcf()
 plt.title('Training and Test loss')
@@ -321,8 +321,8 @@ fig2.savefig( log_folder + "/Training_X_Test_accuracy.png" , dpi=100)
 with open(log_folder + "/log.txt", "w") as output:
     print("###### Log 1 ###########\n\n" +
           "Tran loss = " + str(train_loss) + "\n" + 
-          "Test Loss = " + str(test_loss) + "\n" + 
-          "Train Accuracy = " + str(train_accuracy) + "\n" +
+          "Test Loss = " + str(test_loss) + "\n\n" + 
+          "Train Accuracy = " + str(train_accuracy) + "\n\n" +
           "Test Accuracy = " + str(test_accuracy) + "\n\n" +
           "With:\n" +
           "epochs = " + str(epochs) + ",\n" +

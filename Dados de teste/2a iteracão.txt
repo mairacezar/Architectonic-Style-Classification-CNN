@@ -1,0 +1,10 @@
+tam imagem = 224
+quantidade de imagens treino = 273, teste = 29
+epochs = 50
+learning_rate = 1e-3
+batch_size = 136
+kernel_size = 3
+cost/activation = softmax_cross_entropy_with_logits_v2
+backpropagation = adam optimizer
+
+

@@ -1,0 +1,511 @@
+tam imagem = 224
+quantidade de imagens treino = 272, teste = 30
+epochs = 250
+learning_rate = 1e-3
+batch_size = 136
+kernel_size = 3
+cost/activation = softmax_cross_entropy_with_logits_v2
+backpropagation = adam optimizer
+
+ERRO DE PONTO FLUTUANTE COM 3 (CASO TESTE =30)
+
+
+
+
+
+
+
+
+
+Iter 86, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 87, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 88, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 89, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 90, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 91, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 92, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 93, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 94, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 95, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 96, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 97, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 98, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 99, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 100, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 101, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 102, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 103, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 104, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 105, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 106, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 107, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 108, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 109, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 110, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 111, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 112, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 113, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 114, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 115, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 116, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 117, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 118, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 119, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 120, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 121, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 122, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 123, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 124, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 125, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 126, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 127, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 128, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 129, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 130, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 131, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 132, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 133, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 134, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 135, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 136, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 137, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 138, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 139, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 140, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.50000
+Iter 141, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 142, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 143, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 144, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 145, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 146, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 147, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 148, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 149, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 150, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 151, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 152, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 153, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 154, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 155, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 156, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 157, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 158, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 159, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 160, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 161, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 162, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 163, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 164, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 165, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 166, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 167, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 168, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.53333
+Iter 169, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 170, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 171, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 172, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 173, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 174, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 175, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 176, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 177, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 178, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 179, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 180, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 181, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 182, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 183, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 184, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 185, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 186, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 187, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 188, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 189, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 190, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 191, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 192, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 193, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 194, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 195, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 196, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 197, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 198, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 199, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 200, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 201, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 202, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 203, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 204, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 205, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 206, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 207, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 208, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 209, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 210, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 211, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 212, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 213, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 214, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 215, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 216, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 217, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 218, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 219, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 220, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 221, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 222, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 223, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 224, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 225, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.56667
+Iter 226, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 227, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 228, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 229, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 230, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 231, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 232, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 233, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 234, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 235, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 236, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 237, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 238, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 239, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 240, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 241, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 242, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 243, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 244, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 245, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 246, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 247, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 248, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
+Iter 249, Loss= 0.000000, Training Accuracy= 1.00000
+Backpropagation complete.
+Testing Accuracy: 0.60000
