@@ -1,0 +1,17 @@
+###### Log 1 ###########
+
+Tran loss = [1618.3938, 0.0, 0.0]
+Test Loss = [1519.1857, 249.09233, 54.812786]
+Train Accuracy = [0.0, 1.0, 1.0]
+Test Accuracy = [0.44827586, 0.3448276, 0.3448276]
+
+With:
+epochs = 3,
+learning rate = 0.001, 
+batch size = 136, 
+and with:
+273 Train Images and 
+29 Test Images.
+
+########################
+END LOG
