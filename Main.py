@@ -150,7 +150,7 @@ print(train_y[0], train_y.shape)
 tf.reset_default_graph()
 
 #hyperparameters
-epochs = 3
+epochs = 65
 learning_rate = 1e-3
 batch_size = 136
 classes = NUM_CLASSES
