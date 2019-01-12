@@ -157,7 +157,7 @@ def multiple_iterations(n_epochs):
     #hyperparameters
     epochs = n_epochs
     learning_rate = 1e-3
-    batch_size = 136
+    batch_size = 20
     classes = NUM_CLASSES
     input_shape = IMAGE_SIZE
     kernel_size = 3
@@ -266,7 +266,7 @@ def multiple_iterations(n_epochs):
                 loss, acc = sess.run([cost, accuracy], feed_dict = {image_input: batch_x, 
                                                        label_output: batch_y} )
                 
-            print("Iter " + str(i) + ", Loss= " + \
+            print("Epoch " + str(i) + ", Loss= " + \
                           "{:.6f}".format(loss) + ", Training Accuracy= " + \
                           "{:.5f}".format(acc))
             print("Backpropagation complete.")
