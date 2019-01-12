@@ -13,8 +13,11 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # TODO: mudar isso para uma coisa menos confusa. 
+# talvez usar root = os.path.abspath(__file__)
 program_folder = os.getcwd()
+root = os.path.abspath(__file__)
 training_data_directory = os.path.join(program_folder, "Training Data")
+log_save_directory = os.path.join(program_folder, "Logs")
 
         
 # Defines.
@@ -113,7 +116,7 @@ data = load_dataset_if_exists(training_data_directory)
 
 # ENG: Divides dataset into Train and test ( 272 and 30 data each)
 # PT: Divide o dataset em Train e Test (272 e 30 dados cada)
-train = data[:-30]
+train = data[:-29]
 test = data[-29:]
 
 # ENG: Creates vectors for Features and Labels for Train and Test
@@ -147,7 +150,7 @@ print(train_y[0], train_y.shape)
 tf.reset_default_graph()
 
 #hyperparameters
-epochs = 50
+epochs = 3
 learning_rate = 1e-3
 batch_size = 136
 classes = NUM_CLASSES
@@ -270,59 +273,66 @@ with tf.Session() as sess:
         train_accuracy.append(acc)
         test_accuracy.append(test_acc)
         print("Testing Accuracy:","{:.5f}".format(test_acc))
-    
-#    plt.imshow(test_x[i])
-#    plt.show()
-#    print(test_y)
-    
+        
     summary.close()
     
+#_______________________________ Logging _____________________________________#
+
+
+import datetime
+now = datetime.datetime.now()
+
+time = now.strftime("Log %d-%m-%Y - %H-%M-%S")
+
+os.makedirs( os.path.join( log_save_directory, time ) )
+
+log_folder = os.path.join(log_save_directory, time)
 
 
 
 plt.plot(range(len(train_loss)), train_loss, 'b', label='Training loss')
 plt.plot(range(len(train_loss)), test_loss, 'r', label='Test loss')
+
+axes1 = plt.gca()
+axes1.set_ylim([0,0.5])
+
+fig1 = plt.gcf()
 plt.title('Training and Test loss')
 plt.xlabel('Epochs ',fontsize=16)
 plt.ylabel('Loss',fontsize=16)
 plt.legend()
 plt.figure()
 plt.show()
+fig1.savefig( log_folder + "/Training_X_Test_Loss.png", dpi=100)
+
 
 plt.plot(range(len(train_loss)), train_accuracy, 'b', label='Training Accuracy')
 plt.plot(range(len(train_loss)), test_accuracy, 'r', label='Test Accuracy')
+fig2 = plt.gcf()
 plt.title('Training and Test Accuracy')
 plt.xlabel('Epochs ',fontsize=16)
 plt.ylabel('Accuracy',fontsize=16)
 plt.legend()
 plt.figure()
 plt.show()
+fig2.savefig( log_folder + "/Training_X_Test_accuracy.png" , dpi=100)
 
 
-
-
-        
-            
-            
-            
-    
-    
-    
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
+with open(log_folder + "/log.txt", "w") as output:
+    print("###### Log 1 ###########\n\n" +
+          "Tran loss = " + str(train_loss) + "\n" + 
+          "Test Loss = " + str(test_loss) + "\n" + 
+          "Train Accuracy = " + str(train_accuracy) + "\n" +
+          "Test Accuracy = " + str(test_accuracy) + "\n\n" +
+          "With:\n" +
+          "epochs = " + str(epochs) + ",\n" +
+          "learning rate = " + str(learning_rate) + ", \n" +
+          "batch size = " + str(batch_size) + ", \n" +
+          "and with:\n" +
+          str(len(train)) + " Train Images and \n" +
+          str(len(test)) + " Test Images.\n\n" +
+          "########################\n" +
+          "END LOG", file=output)
 
 
 
