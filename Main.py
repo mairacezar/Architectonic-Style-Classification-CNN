@@ -7,7 +7,7 @@ from random import shuffle
 from IPython import get_ipython
 get_ipython().run_line_magic('matplotlib', 'inline')
 
-
+# TODO: Mais opões, alias, todas as opões possíveis
 n_iterations = int( input("Numeber of iterations: ") )
 e = int( input("Number of epochs: ") )
 
@@ -300,7 +300,7 @@ def multiple_iterations(n_epochs):
     plt.plot(range(len(train_loss)), test_loss, 'r', label='Test loss')
     
     axes1 = plt.gca()
-    axes1.set_ylim([0,0.5])
+    axes1.set_ylim([0,0.1])
     
     fig1 = plt.gcf()
     plt.title('Training and Test loss')
@@ -346,5 +346,5 @@ def multiple_iterations(n_epochs):
 
 
 for i in range(0, n_iterations):
-    print("------ Iteration "+i+"------\n\n")
+    print("------ Iteration "+str(i)+"------\n\n")
     multiple_iterations(e)
