@@ -5,6 +5,9 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from random import shuffle
 from IPython import get_ipython
+from random import randint
+from skimage.util import random_noise
+from skimage import exposure
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 # TODO: Mais opões, alias, todas as opões possíveis
@@ -20,7 +23,7 @@ def multiple_iterations(n_epochs):
     # TODO: mudar isso para uma coisa menos confusa. 
     # talvez usar root = os.path.abspath(__file__)
     program_folder = os.getcwd()
-    root = os.path.abspath(__file__)
+    #root = os.path.abspath(__file__)
     training_data_directory = os.path.join(program_folder, "Training Data")
     log_save_directory = os.path.join(program_folder, "Logs")
     
@@ -116,13 +119,58 @@ def multiple_iterations(n_epochs):
     # and saves it as an .npy file.
     # PT: Checa se a pasta ja tem um dataset .npy, se tem, carrega o arquivo, se não,
     # cria um dataset e salva ele como um arquivo .npy
-    data = load_dataset_if_exists(training_data_directory)        
+    data = load_dataset_if_exists(training_data_directory)
+
+    def augmentation (data):
+        
+        aug_data = np.copy(data)
+        #crop_size = IMAGE_SIZE
+        
+        for i in range(len(aug_data)-1):            
+            case = randint(0,2)
+            
+            if (case == 1):
+                np.fliplr(aug_data[i][0])
+
+            case = randint(0,1)    
+            
+            if (case == 1):
+                random_noise(aug_data[i][0])
+
+            case = randint(0,1)
+            
+            #if (case == 1):
+#                print("exposure")
+#                plt.imshow(aug_data[i][0])
+#                plt.show()
+                
+                #v_min, v_max = np.percentile(aug_data[i][0], (0.2, 99.8))
+                #aug_data[i][0] = exposure.rescale_intensity(aug_data[i][0], in_range=(v_min, v_max))
+                
+#                plt.imshow(aug_data[i][0])
+#                plt.show()
+        return aug_data
+    new_data = augmentation(data)
+    print(np.shape(new_data))
+    print(new_data[1][0].shape)
+    #np.append(data, augmentation(data), 0)
     
+#    plt.imshow(data[0][0])    
+#    plt.show()
+#    plt.imshow(data[387][0])
+#    plt.show()
     
+    #shuffle(data)
+    
+#    print(data[0][0].shape)
+#    print(data[387][0].shape)
+
+
     # ENG: Divides dataset into Train and test ( 272 and 30 data each)
     # PT: Divide o dataset em Train e Test (272 e 30 dados cada)
-    train = data[:-29]
-    test = data[-29:]
+    train = data[:-59]
+    test = data[-59:]
+    
     
     # ENG: Creates vectors for Features and Labels for Train and Test
     # PT: Cria um vetores para Features e um para Labels para os dados de Test e de Train
@@ -132,17 +180,13 @@ def multiple_iterations(n_epochs):
     test_x = np.array([i[0] for i in test]).reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 3) 
     test_y = np.array([i[1] for i in test])
     
-    # NOTE: Função importantíssima do código que mostra para o seu programador quando o
-    # código terminou.
-    print("end program")
-    
-
 #________________________TESTING DATASET______________________________________#
     
     # Shapes of training set
     print("Training set (images) shape: {shape}".format(shape=train_x.shape))
     
     # Display the first image in training data
+    print(train_x[0].shape)
     plt.imshow(train_x[0])
     plt.show()
     
@@ -156,8 +200,8 @@ def multiple_iterations(n_epochs):
     
     #hyperparameters
     epochs = n_epochs
-    learning_rate = 1e-3
-    batch_size = 20
+    learning_rate = 1e-5
+    batch_size = 164
     classes = NUM_CLASSES
     input_shape = IMAGE_SIZE
     kernel_size = 3
@@ -260,25 +304,23 @@ def multiple_iterations(n_epochs):
                 batch_y = train_y[batch*batch_size:min((batch+1*batch_size, len(train_y)))]
                 
                 #TODO: Essa variável não é usada
-                back = sess.run(optimizer, feed_dict = {image_input: batch_x, 
-                                                       label_output: batch_y} )
+                back = sess.run(optimizer, feed_dict = {image_input: batch_x, label_output: batch_y} )
         
-                loss, acc = sess.run([cost, accuracy], feed_dict = {image_input: batch_x, 
-                                                       label_output: batch_y} )
+                loss, acc = sess.run([cost, accuracy], feed_dict = {image_input: batch_x, label_output: batch_y} )
                 
-            print("Epoch " + str(i) + ", Loss= " + \
-                          "{:.6f}".format(loss) + ", Training Accuracy= " + \
+            print("Epoch " + str(i) + ", Loss = " + \
+                          "{:.6f}".format(loss) + ", Training Accuracy = " + \
                           "{:.5f}".format(acc))
             print("Backpropagation complete.")
             
             
-            test_acc, valid_loss = sess.run([accuracy, cost], feed_dict= {image_input: test_x,
-                                                                        label_output: test_y})
+            test_acc, valid_loss = sess.run([accuracy, cost], feed_dict = {image_input: test_x, label_output: test_y})
             train_loss.append(loss)
             test_loss.append(valid_loss)
             train_accuracy.append(acc)
             test_accuracy.append(test_acc)
             print("Testing Accuracy:","{:.5f}".format(test_acc))
+            print("Valid Loss","{:.5f}".format(valid_loss))
             
         summary.close()
         
@@ -299,8 +341,8 @@ def multiple_iterations(n_epochs):
     plt.plot(range(len(train_loss)), train_loss, 'b', label='Training loss')
     plt.plot(range(len(train_loss)), test_loss, 'r', label='Test loss')
     
-    axes1 = plt.gca()
-    axes1.set_ylim([0,0.1])
+    #axes1 = plt.gca()
+    #axes1.set_ylim([0,0.1])
     
     fig1 = plt.gcf()
     plt.title('Training and Test loss')
@@ -346,5 +388,5 @@ def multiple_iterations(n_epochs):
 
 
 for i in range(0, n_iterations):
-    print("------ Iteration "+str(i)+"------\n\n")
+    print("\n\n------ Iteration "+str(i)+"------\n\n")
     multiple_iterations(e)
