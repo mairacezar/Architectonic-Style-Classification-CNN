@@ -130,12 +130,12 @@ def multiple_iterations(n_epochs):
             case = randint(0,2)
             
             if (case == 1):
-                np.fliplr(aug_data[i][0])
+               aug_data[i][0] =  np.fliplr(aug_data[i][0])
 
             case = randint(0,1)    
             
             if (case == 1):
-                random_noise(aug_data[i][0])
+                aug_data[i][0] = random_noise(aug_data[i][0])
 
             case = randint(0,1)
             
@@ -149,18 +149,21 @@ def multiple_iterations(n_epochs):
                 
 #                plt.imshow(aug_data[i][0])
 #                plt.show()
-        return aug_data
+        return (aug_data)
     new_data = augmentation(data)
     print(np.shape(new_data))
     print(new_data[1][0].shape)
-    #np.append(data, augmentation(data), 0)
+    #data=np.concatenate((data, new_data), axis=0)
+    data = new_data
+    plt.imshow(data[3][0])
+    plt.show()
+    plt.imshow(data[92][0])
+    plt.show()
+    plt.imshow(data[33][0])
+    plt.show()
     
-#    plt.imshow(data[0][0])    
-#    plt.show()
-#    plt.imshow(data[387][0])
-#    plt.show()
-    
-    #shuffle(data)
+    shuffle(data)
+    print(np.shape(data))
     
 #    print(data[0][0].shape)
 #    print(data[387][0].shape)
@@ -201,7 +204,7 @@ def multiple_iterations(n_epochs):
     #hyperparameters
     epochs = n_epochs
     learning_rate = 1e-5
-    batch_size = 164
+    batch_size = 136
     classes = NUM_CLASSES
     input_shape = IMAGE_SIZE
     kernel_size = 3
