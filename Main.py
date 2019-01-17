@@ -131,48 +131,39 @@ def multiple_iterations(n_epochs):
             
             if (case == 1):
                aug_data[i][0] =  np.fliplr(aug_data[i][0])
-
+               
             case = randint(0,1)    
             
-            if (case == 1):
-                aug_data[i][0] = random_noise(aug_data[i][0])
+            #if (case == 1):
+                #aug_data[i][0] = random_noise(aug_data[i][0])
 
             case = randint(0,1)
-            
-            #if (case == 1):
-#                print("exposure")
-#                plt.imshow(aug_data[i][0])
-#                plt.show()
-                
-                #v_min, v_max = np.percentile(aug_data[i][0], (0.2, 99.8))
-                #aug_data[i][0] = exposure.rescale_intensity(aug_data[i][0], in_range=(v_min, v_max))
-                
-#                plt.imshow(aug_data[i][0])
-#                plt.show()
         return (aug_data)
+    
     new_data = augmentation(data)
-    print(np.shape(new_data))
-    print(new_data[1][0].shape)
-    #data=np.concatenate((data, new_data), axis=0)
-    data = new_data
-    plt.imshow(data[3][0])
-    plt.show()
-    plt.imshow(data[92][0])
-    plt.show()
-    plt.imshow(data[33][0])
-    plt.show()
+
+    data = np.concatenate((data, new_data), axis=0)
+
+#    plt.imshow(data[415][0])
+#    plt.show()
+#    print("lbl",data[415][1])
+#    plt.imshow(data[389][0])
+#    plt.show()
+#    print("lbl",data[389][1])
+#    plt.imshow(data[500][0])
+#    plt.show()
+#    print("lbl",data[500][1])
     
     shuffle(data)
-    print(np.shape(data))
+    #print("data shape",np.shape(data[0][0]))
     
-#    print(data[0][0].shape)
-#    print(data[387][0].shape)
-
+    
+    
 
     # ENG: Divides dataset into Train and test ( 272 and 30 data each)
     # PT: Divide o dataset em Train e Test (272 e 30 dados cada)
-    train = data[:-59]
-    test = data[-59:]
+    train = data[:-60]
+    test = data[-60:]
     
     
     # ENG: Creates vectors for Features and Labels for Train and Test
@@ -190,21 +181,33 @@ def multiple_iterations(n_epochs):
     
     # Display the first image in training data
     print(train_x[0].shape)
-    plt.imshow(train_x[0])
+    
+    plt.imshow(train_x[415])
     plt.show()
+    print("lbl",data[415][1])
+    plt.imshow(train_x[389])
+    plt.show()
+    print("lbl",data[389][1])
+    plt.imshow(train_x[500])
+    plt.show()
+    print("lbl",data[500][1])
+
+    print(train_x.shape)
+    print(train_y.shape)        
     
-    # Print image label for sanity checks
-    print(train_y[0], train_y.shape)
-    
-    
+     # Print image label for sanity checks
+#    print("Train shape", train_y[0], train_y.shape)
+#    for i in range(len(train_y)):
+#        print(train_y[i])
+
 #____________________CONSTRUCT CONVOLUTIONAL NEURAL NETWORK___________________#
     
     tf.reset_default_graph()
     
     #hyperparameters
     epochs = n_epochs
-    learning_rate = 1e-5
-    batch_size = 136
+    learning_rate = 1e-2
+    batch_size = 357
     classes = NUM_CLASSES
     input_shape = IMAGE_SIZE
     kernel_size = 3
@@ -254,45 +257,42 @@ def multiple_iterations(n_epochs):
     
     def convolutional_net(x, weights, bias):
         
-        #neural network layers
+        # neural network layers
         conv1 = conv2d(x, weights['wc1'], biases['bc1'] )
         conv1 = max_pooling(conv1, k=2)
-    #    print(conv1.shape)
         
         conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
         conv2 = max_pooling(conv2, k=2)
         
         conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
         conv3 = max_pooling(conv3, k=2)
-    #    print(conv2.shape)
-    #    print(conv3.shape)
         
-        #fully connected layer with activation function
+        # fully connected layer with activation function
         fc1 = tf.reshape(conv3, [-1,weights['wd1'].get_shape().as_list()[0]])
         fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
         fc1 = tf.nn.relu(fc1)
         
-        #output
+        # output
         out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
         
         return out
     
-    #model
+    # model
     prediction = convolutional_net(image_input, weights, biases)
     
-    #loss, activiation and backpropagation functions for model
+    # loss, activiation and backpropagation functions for model
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=label_output))
     
-    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+    optimizer = tf.train.AdagradOptimizer(learning_rate=learning_rate).minimize(cost)
     
-    #test perform
+    # test perform
     correct_prediction = tf.equal(tf.argmax(prediction, 1), tf.argmax(label_output, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     
-    #variables initialization
+    # variables initialization
     init = tf.global_variables_initializer()
     
-    #initiate train
+    # initiate train
     with tf.Session() as sess:
         sess.run(init)
         train_loss = []
@@ -303,6 +303,7 @@ def multiple_iterations(n_epochs):
         
         for i in range(epochs):
             for batch in range(len(train_x)//batch_size):
+                
                 batch_x = train_x[batch*batch_size:min((batch+1*batch_size, len(train_x)))]
                 batch_y = train_y[batch*batch_size:min((batch+1*batch_size, len(train_y)))]
                 
