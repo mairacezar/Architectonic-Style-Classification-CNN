@@ -11,8 +11,8 @@ from skimage import exposure
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 # TODO: Mais opões, alias, todas as opões possíveis
-n_iterations = int( input("Numeber of iterations: ") )
-e = int( input("Number of epochs: ") )
+#n_iterations = int( input("Numeber of iterations: ") )
+#e = int( input("Number of epochs: ") )
 
 #def multiple_iterations(n_epochs):
    
